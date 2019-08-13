@@ -1,0 +1,25 @@
+language: rust
+cache: 
+  cargo: true
+  directories:
+  - cargo_web
+
+rust:
+  - stable
+  - beta
+  - nightly
+os:
+ - linux
+ 
+addons:
+  chrome: stable
+
+
+script:
+  - cargo build --verbose
+  - cargo test --verbose
+  - cargo build --verbose --release
+  - cargo test --verbose --release
+  - CARGO_TARGET_DIR=cargo_web cargo install --verbose --force cargo-web
+  - cargo web test --verbose --target=asmjs-unknown-emscripten
+  - cargo web test --verbose --target=wasm32-unknown-unknown
